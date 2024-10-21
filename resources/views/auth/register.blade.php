@@ -13,16 +13,16 @@
             <img src="{{ asset('logo.svg') }}" alt="Icon" width="400" height="300" />
         </div>
         <h2 class="my-5 text-lg font-semibold">Create Your Account</h2>
-        <form class="login-form" action="" method="POST">
+        <form class="login-form" action="{{ route('register') }}" method="POST">
+            @csrf
             <input type="text" name="username" placeholder="Username" value="">
             <input type="email" name="email" placeholder="Email" value="" >
             <input type="password" name="password" placeholder="Password" >
-            <input type="password" name="confirm_password" placeholder="Confirm Password" >
-            <input type="hidden" name="action" value="signup"> 
+            <input type="password" name="password_confirmation" placeholder="Confirm Password" >
             <div class="link">
-                <a href="/" class="loginbtn">Create Account</a>
+                <button type="submit" class="loginbtn">Create Account</button>
             </div>
-        </form>
+        </form>       
     </div>
 </body>
 </html>

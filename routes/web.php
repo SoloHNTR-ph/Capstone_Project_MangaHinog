@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// UserProfile route
+Route::get('/userprofile', function () {
+    return view('userprofile');
+})->name('userprofile')->middleware('auth');
+
+use App\Http\Controllers\Auth\RegisterController;
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+
+
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -25,11 +39,10 @@ Route::get('/signup', function () {
     return view('signup');
 });
 
-Route::get('/mangadetails', function () {
-    return view('mangadetails');
-});
 
-Route::get('/chapters', function () {
-    return view('chapters');
-});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 

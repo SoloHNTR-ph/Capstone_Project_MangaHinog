@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 
+/* navbar, log in, and signup css */
 * {
   margin: 0;
   padding: 0;
@@ -142,4 +143,27 @@ hr {
 }
 .button a:hover {
   background: #3ba626;
+}
+
+/* hero css */
+
+html {
+  scroll-behavior: smooth;
+}
+
+.navbar {
+  box-shadow: 0px 4px 2px -2px gray;
+  z-index: 1000;
+}
+
+body {
+  padding-top: 2px; 
+}
+
+
+.custom-shadow {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+.custom-shadow:hover {
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2);
 }

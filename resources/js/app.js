@@ -1,56 +1,39 @@
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+
 import './bootstrap';
-import 'flowbite';
+import { createApp } from 'vue';
 
-const chapterListDiv = document.getElementById('chapterList');
+/**
+ * Next, we will create a fresh Vue application instance. You may then begin
+ * registering components with the application instance so they are ready
+ * to use in your application's views. An example is included for you.
+ */
 
-function handleScroll() {
-    const { scrollTop, scrollHeight, clientHeight } = chapterListDiv;
-    if (scrollTop + clientHeight >= scrollHeight) {
-        console.log('Reached the bottom of the list');
-    }
-}
+const app = createApp({});
 
-chapterListDiv.addEventListener('scroll', handleScroll);
+import ExampleComponent from './components/ExampleComponent.vue';
+app.component('example-component', ExampleComponent);
 
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPage = 0;
-    const totalPages = 10; 
-    const imageUrlBase = '/path-to-your-images'; 
+/**
+ * The following block of code may be used to automatically register your
+ * Vue components. It will recursively scan this directory for the Vue
+ * components and automatically register them with their "basename".
+ *
+ * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ */
 
-    document.getElementById('nextPage').addEventListener('click', () => {
-        if (currentPage < totalPages - 1) {
-            currentPage++;
-            updateImage();
-        }
-        updateButtons();
-    });
+// Object.entries(import.meta.glob('./**/*.vue', { eager: true })).forEach(([path, definition]) => {
+//     app.component(path.split('/').pop().replace(/\.\w+$/, ''), definition.default);
+// });
 
-    document.getElementById('prevPage').addEventListener('click', () => {
-        if (currentPage > 0) {
-            currentPage--;
-            updateImage();
-        }
-        updateButtons();
-    });
+/**
+ * Finally, we will attach the application instance to a HTML element with
+ * an "id" attribute of "app". This element is included with the "auth"
+ * scaffolding. Otherwise, you will need to add an element yourself.
+ */
 
-    document.getElementById('loadAllPages').addEventListener('click', loadAllPages);
-
-    function updateImage() {
-        const imageUrl = `${imageUrlBase}/page-${currentPage + 1}.jpg`;
-        document.getElementById('imageContainer').innerHTML = `<img src="${imageUrl}" alt="Page ${currentPage + 1}" class="max-h-full max-w-full object-contain" />`;
-    }
-
-    function updateButtons() {
-        document.getElementById('prevPage').disabled = currentPage === 0;
-        document.getElementById('nextPage').disabled = currentPage === totalPages - 1;
-    }
-
-    function loadAllPages() {
-        let allPagesHtml = '';
-        for (let i = 0; i < totalPages; i++) {
-            const imageUrl = `${imageUrlBase}/page-${i + 1}.jpg`;
-            allPagesHtml += `<img src="${imageUrl}" alt="Page ${i + 1}" class="max-h-full max-w-full object-contain mb-4" />`;
-        }
-        document.getElementById('imageContainer').innerHTML = allPagesHtml;
-    }
-});
+app.mount('#app');
