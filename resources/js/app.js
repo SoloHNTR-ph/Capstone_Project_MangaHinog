@@ -1,39 +1,64 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
 
-import './bootstrap';
-import { createApp } from 'vue';
+// Scroll
+document.addEventListener("DOMContentLoaded", function () {
+    const links = document.querySelectorAll('a[href^="#"]');
+  
+    links.forEach((link) => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+  
+        const targetId = this.getAttribute("href");
+        const targetElement = document.querySelector(targetId);
+  
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop,
+            behavior: "smooth",
+          });
+        }
+      });
+    });
+  });
+  
+  // Comment funtion
+window.showButtons = function () {
+    console.log("showButtons called");
+    document.getElementById("comment-input").classList.add("py-6");
+    document.getElementById("button-container").classList.remove("hidden");
+};
 
-/**
- * Next, we will create a fresh Vue application instance. You may then begin
- * registering components with the application instance so they are ready
- * to use in your application's views. An example is included for you.
- */
+window.hideButtons = function () {
+    console.log("hideButtons called");
+    const input = document.getElementById("comment-input");
+    if (input.value === "") {
+        input.classList.remove("py-6");
+        document.getElementById("button-container").classList.add("hidden");
+    }
+};
 
-const app = createApp({});
-
-import ExampleComponent from './components/ExampleComponent.vue';
-app.component('example-component', ExampleComponent);
-
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-
-// Object.entries(import.meta.glob('./**/*.vue', { eager: true })).forEach(([path, definition]) => {
-//     app.component(path.split('/').pop().replace(/\.\w+$/, ''), definition.default);
-// });
-
-/**
- * Finally, we will attach the application instance to a HTML element with
- * an "id" attribute of "app". This element is included with the "auth"
- * scaffolding. Otherwise, you will need to add an element yourself.
- */
-
-app.mount('#app');
+  
+  //   reply minimize
+  document.querySelectorAll('.toggle-btn').forEach(button => {
+      // Find the reply section related to the button
+      const replySection = button.parentElement.nextElementSibling;
+    
+      // Set the initial state: check if reply section has 'hidden' class
+      if (replySection.classList.contains('hidden')) {
+        button.textContent = '+'; // Show plus sign if hidden
+      } else {
+        button.textContent = '-'; // Show minus sign if visible
+      }
+    
+      // Add click event to toggle visibility using the 'hidden' class
+      button.addEventListener('click', function () {
+        replySection.classList.toggle('hidden'); // Toggle the 'hidden' class
+    
+        if (replySection.classList.contains('hidden')) {
+          this.textContent = '+'; // Show plus when hidden
+        } else {
+          this.textContent = '-'; // Show minus when visible
+        }
+      });
+    });
+    
+    

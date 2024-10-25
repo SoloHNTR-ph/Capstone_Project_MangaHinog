@@ -21,7 +21,7 @@
                     <img src="https://i.pinimg.com/originals/c0/8f/cf/c08fcffb8b50b3ed3237abb0102bf737.jpg" alt="Profile Picture" class="w-16 h-16 rounded-full">
                     <div>
                         <h1 class="text-xl font-semibold">Username</h1>
-                        <p class="text-gray-500"></p>
+                        <button>Edit</button>
               </div>
             </div>
         </div>
@@ -55,12 +55,19 @@
             
             <div class="mt-4">
                 <p class="text-gray-500">Birthday</p>
-                <p>Aug 9, 2024</p>
+                <div class="flex gap-5">
+                    <p>{{ Auth::user()->birthday ? Auth::user()->birthday->format('M d, Y') : 'Not set' }}</p>
+                    <button>Edit</button>
+                </div>
             </div>
             
             <div class="mt-4">
                 <p class="text-gray-500">Email</p>
-                <p>email@email.com</p>
+                <div class="flex gap-5">
+                    <p>email@email.com</p>
+                    <button>Edit</button>
+
+                </div>
             </div>
         </div>
     </div>

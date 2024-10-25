@@ -22,17 +22,17 @@
               <p>Your gateway to endless stories.</p>
           </div>
         
-          <form class="login-form" action="./config/process.php" method="POST">
-            <input type="email" name="email" placeholder="Email or phone number" required>
+          <form class="login-form" action="{{ route('login.submit') }}" method="POST">
+            @csrf
+            <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
-            <input type="hidden" name="action" value="login"> 
             <div class="link">
-              <button type="submit" class="loginbtn">Login</button>
-              <a href="#" class="forgot">Forgot password?</a>
+                <button type="submit" class="loginbtn">Login</button>
+                <a href="#" class="forgot">Forgot password?</a>
             </div>
             <hr>
             <div class="button">
-              <a href="/signup">Create new account</a>
+                <a href="{{ route('register') }}">Create new account</a>
             </div>
           </form>
         </div>

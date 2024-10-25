@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,14 +16,14 @@
         <h2 class="my-5 text-lg font-semibold">Create Your Account</h2>
         <form class="login-form" action="{{ route('register') }}" method="POST">
             @csrf
-            <input type="text" name="username" placeholder="Username" value="">
-            <input type="email" name="email" placeholder="Email" value="" >
-            <input type="password" name="password" placeholder="Password" >
-            <input type="password" name="password_confirmation" placeholder="Confirm Password" >
+            <input type="text" name="username" placeholder="Username" value="{{ old('username') }}">
+            <input type="email" name="email" placeholder="Email" value="{{ old('email') }}">
+            <input type="password" name="password" placeholder="Password">
+            <input type="password" name="password_confirmation" placeholder="Confirm Password">
             <div class="link">
                 <button type="submit" class="loginbtn">Create Account</button>
             </div>
-        </form>       
+        </form>      
     </div>
 </body>
 </html>
