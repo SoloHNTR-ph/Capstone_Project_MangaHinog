@@ -8,7 +8,8 @@
     
 </head>
 <body>
-    <nav class="bg-gray-100 p-5 sticky top-0 z-50">
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <nav class="bg-gray-100 p-5 sticky top-0 z-40">
         <div class="container mx-auto flex items-center justify-between">
             <div class="flex items-center col-span-4">
                 <a href="{{ url('/') }}" class="flex items-center">
@@ -49,45 +50,62 @@
             </div>
             <div class="flex items-center justify-end col-span-4">
                 <form class="flex items-center space-x-2">
-                    <input type="search" class="form-input px-4 py-2 border rounded" placeholder="Type your Manga" aria-label="Search">
+                    <input type="search" name="search" class="form-input px-4 py-2 border rounded" placeholder="Search a Topic" aria-label="Search">
                     <button class="bg-black text-white px-4 py-2 rounded">Search</button>
-                    @if (session('username'))
-                        <div class="relative">
-                            <a href="#" id="userDropdown" class="flex items-center" data-bs-toggle="dropdown">
-                                <lottie-player 
-                                    src="https://lottie.host/25a30cb3-2c11-4ad3-95fa-8743f28b1403/fuMx2pN8sR.json" 
-                                    background="transparent" 
-                                    speed="1" 
-                                    class="w-10 h-8" 
-                                    loop autoplay></lottie-player>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end mt-2 bg-white border rounded shadow-md">
-                                <span class="ml-2">{{ session('username') }}</span>
-                                <li><a href="{{ url('profile') }}" class="block px-4 py-2">Profile</a></li>
-                                <li><hr class="border-t"></li>
-                                <li><a href="{{ url('logout') }}" class="block px-4 py-2">Logout</a></li>
-                            </ul>
-                        </div>
-                    @else
-                        <a href="/login" class="ml-3">
-                            <lottie-player 
-                                src="https://lottie.host/25a30cb3-2c11-4ad3-95fa-8743f28b1403/fuMx2pN8sR.json" 
-                                background="transparent" 
-                                speed="1" 
-                                class="w-12 h-12" 
-                                loop autoplay></lottie-player>
-                        </a>
-                    @endif
                 </form>
+                @auth
+                    
+                
+                <div class="relative inline-block text-left">
+                    <!-- Dropdown toggle button -->
+                    <button id="userDropdownButton" type="button" class="flex items-center focus:outline-none">
+                        <lottie-player 
+                            src="https://lottie.host/25a30cb3-2c11-4ad3-95fa-8743f28b1403/fuMx2pN8sR.json" 
+                            background="transparent" 
+                            speed="1" 
+                            class="w-10 h-8" 
+                            loop autoplay>
+                        </lottie-player>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="userDropdownMenu" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
+                        <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="userDropdownButton">
+                            <span class="block px-4 py-2 text-gray-700">{{auth()->user()->name}}</span>
+                            <a href="/profile" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" role="menuitem">Profile</a>
+                            <hr class="border-t">
+                            <form action="/logout" method="post">
+                                @csrf
+                                <button type="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" >
+                                    Logout
+                                </button>
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+                @else
+                    <a href="/login" class="ml-3">
+                        <lottie-player 
+                            src="https://lottie.host/25a30cb3-2c11-4ad3-95fa-8743f28b1403/fuMx2pN8sR.json" 
+                            background="transparent" 
+                            speed="1" 
+                            class="w-12 h-12" 
+                            loop autoplay></lottie-player>
+                            <p>log in</p>
+                    </a>
+                @endauth
             </div>
         </div>
     </nav>
+    <main>
+        {{$slot}}
+    </main>
     
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     
     
-    @yield('navbar')
     
+    <x-successMessage />
     
     
 </body>

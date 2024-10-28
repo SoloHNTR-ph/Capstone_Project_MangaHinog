@@ -14,12 +14,24 @@
             <img src="{{ asset('logo.svg') }}" alt="Icon" width="400" height="300" />
         </div>
         <h2 class="my-5 text-lg font-semibold">Create Your Account</h2>
-        <form class="login-form" action="{{ route('register') }}" method="POST">
+        <form class="login-form" action="/users" method="POST">
             @csrf
-            <input type="text" name="username" placeholder="Username" value="{{ old('username') }}">
+            <input type="text" name="name" placeholder="Username" value="{{ old('name') }}">
+            @error('name')
+                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+            @enderror
             <input type="email" name="email" placeholder="Email" value="{{ old('email') }}">
+            @error('email')
+                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+            @enderror
             <input type="password" name="password" placeholder="Password">
+            @error('password')
+                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+            @enderror
             <input type="password" name="password_confirmation" placeholder="Confirm Password">
+            @error('password_confirmation')
+                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+            @enderror
             <div class="link">
                 <button type="submit" class="loginbtn">Create Account</button>
             </div>

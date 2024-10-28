@@ -1,5 +1,5 @@
+import 'flowbite';
 
-// Scroll
 document.addEventListener("DOMContentLoaded", function () {
     const links = document.querySelectorAll('a[href^="#"]');
   
@@ -39,26 +39,39 @@ window.hideButtons = function () {
   
   //   reply minimize
   document.querySelectorAll('.toggle-btn').forEach(button => {
-      // Find the reply section related to the button
+      
       const replySection = button.parentElement.nextElementSibling;
     
-      // Set the initial state: check if reply section has 'hidden' class
       if (replySection.classList.contains('hidden')) {
-        button.textContent = '+'; // Show plus sign if hidden
+        button.textContent = '+'; 
       } else {
-        button.textContent = '-'; // Show minus sign if visible
+        button.textContent = '-'; 
       }
     
-      // Add click event to toggle visibility using the 'hidden' class
       button.addEventListener('click', function () {
-        replySection.classList.toggle('hidden'); // Toggle the 'hidden' class
+        replySection.classList.toggle('hidden'); 
     
         if (replySection.classList.contains('hidden')) {
-          this.textContent = '+'; // Show plus when hidden
+          this.textContent = '+'; 
         } else {
-          this.textContent = '-'; // Show minus when visible
+          this.textContent = '-'; 
         }
       });
     });
     
     
+// toggle icon
+
+const dropdownButton = document.getElementById('userDropdownButton');
+    const dropdownMenu = document.getElementById('userDropdownMenu');
+
+    dropdownButton.addEventListener('click', function(event) {
+        event.stopPropagation(); 
+        dropdownMenu.classList.toggle('hidden');
+    });
+
+    window.addEventListener('click', function() {
+        if (!dropdownMenu.classList.contains('hidden')) {
+            dropdownMenu.classList.add('hidden');
+        }
+    });

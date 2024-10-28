@@ -1,15 +1,17 @@
 <?php
 
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ThreadController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Models\User;
 use App\Models\Thread;
 use App\Models\Listing;
-use App\Models\User;
-
 use function Pest\Laravel\get;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\CommentController;
+
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,53 +24,58 @@ use function Pest\Laravel\get;
 |
 */
 
-// UserProfile route
-Route::get('/userprofile', function () {
-    return view('userprofile');
-})->name('userprofile')->middleware('auth');
-
-// Register route
-Route::post('/register', [RegisterController::class, 'register'])->name('register');
-
-// Log in route 
-Route::get('/login', function () {
-    return view('login');  
-})->name('login');
-
-Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
-
-// Thread route
-Route::get('/threads', [ThreadController::class, 'index']);
-
-Route::get('/threads/{thread}', [ThreadController::class, 'show']);
-
-
-
-
-
 Route::get('/', function () {
     return view('welcome', [
         'threads' => thread::all()
     ]);
 });
 
-Route::get('/login', function () {
-    return view('login');
-});
+// logout route 
+Route::post('/logout', [UserController::class, 'logout']);
 
-Route::get('/register', function () {
-    return view('register');
-});
 
-Route::get('/listings', function() {
-    return view('listings', [
-        'heading' => 'Latest Listings',
-        'listings' => Listing::all()
-    ]);
-});
+// login route 
+Route::get('/login', [UserController::class, 'login']);
+Route::post('/user/authenticate', [UserController::class, 'authenticate']);
 
-Route::get('/listings/{id}', function($id) {
-    return view(  'listing', [
-        'listing' => Listing::find($id)
-    ]);
-});
+Route::get('/profile', [UserController::class, 'showProfile']);
+
+Route::get('/profile/edit', [UserController::class, 'editProfile']); 
+Route::put('/profile/update', [UserController::class, 'updateProfile']);
+
+// Register route
+Route::get('/register', [UserController::class, 'create']);
+Route::post('/users', [UserController::class, 'store']);
+
+// Thread route
+Route::get('/threads', [ThreadController::class, 'index']);
+Route::get('threads/create', [ThreadController::class, 'create']);
+Route::post('/threads', [ThreadController::class, 'store']);
+
+// Edit and Update Routes
+Route::put('/threads/{thread}', [ThreadController::class, 'update']);
+Route::get('/threads/{thread}/edit', [ThreadController::class, 'edit']);
+
+// Likes
+Route::post('/threads/{thread}/like', [ThreadController::class, 'like']);
+Route::get('/threads/{thread}', [ThreadController::class, 'show']);
+
+
+// Comments route  
+Route::post('/threads/{thread}/comments', [CommentController::class, 'store']);
+Route::post('/comments/{comment}/like', [CommentController::class, 'like']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
