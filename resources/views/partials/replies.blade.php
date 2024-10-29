@@ -7,8 +7,12 @@
             <h1 class="font-bold">{{ $reply->user->name }}</h1>
         </div>
         <p class="font-normal text-gray-700 dark:text-gray-400">{{ $reply->content }}</p>
+        
+        @if($reply->image)
+            <img src="{{ asset('storage/' . $reply->image) }}" alt="Reply Image" class="mt-2 max-w-xs rounded">
+        @endif
+
         <div class="flex gap-4 mt-3">
-            <!-- Like/Unlike and Reply Buttons -->
             <form class="flex gap-1" action="/comments/{{ $reply->id }}/like" method="POST">
                 @csrf
                 <button type="submit">
@@ -24,26 +28,42 @@
                 </button>
             </form>
             <button onclick="toggleReplyForm({{ $reply->id }})" class="text-sm">Reply</button>
+            <button onclick="toggleEditForm({{ $reply->id }})" class="text-sm">Edit</button>
         </div>
 
-        <!-- Reply Form (Initially Hidden) -->
-        <form id="reply-form-{{ $reply->id }}" action="/threads/{{ $reply->thread->id }}/comments" method="POST" class="hidden w-full items-center ">
+        <!-- Reply Form -->
+        <form id="reply-form-{{ $comment->id }}" action="{{ url('/threads/' . $thread->id . '/comments/' . $comment->id . '/replies') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            <input type="hidden" name="parent_id" value="{{ $reply->id }}">
             <div class="flex">
-                <input type="hidden" name="parent_id" value="{{ $reply->id }}">
-            <textarea name="content" placeholder="Reply to this reply..." class="w-full h-12 rounded"></textarea>
-            <button type="submit">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
-                    <path d="m21.426 11.095-17-8A1 1 0 0 0 3.03 4.242l1.212 4.849L12 12l-7.758 2.909-1.212 4.849a.998.998 0 0 0 1.396 1.147l17-8a1 1 0 0 0 0-1.81z"></path>
-                </svg>
-            </button>
+                <textarea name="content" placeholder="Reply to this reply..." class="w-full h-12 rounded"></textarea>
+                <input type="file" name="image" class="ml-2">
+                <button type="submit" class="ml-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);">
+                        <path d="m21.426 11.095-17-8A1 1 0 0 0 3.03 4.242l1.212 4.849L12 12l-7.758 2.909-1.212 4.849a.998.998 0 0 0 1.396 1.147l17-8a1 1 0 0 0 0-1.81z"></path>
+                    </svg>
+                </button>
             </div>
         </form>
 
-        <!-- Nested Replies for this Reply -->
+        <!-- Edit Form -->
+        <form id="edit-form-{{ $reply->id }}" action="/replies/{{ $reply->id }}/edit" method="POST" enctype="multipart/form-data" class="hidden w-full items-center">
+            @csrf
+            @method('PUT')
+            <textarea name="content" class="w-full h-12 rounded">{{ $reply->content }}</textarea>
+            <input type="file" name="image" class="ml-2">
+            @if($reply->image)
+                <label class="inline-flex items-center ml-2">
+                    <input type="checkbox" name="remove_image" value="1" class="form-checkbox">
+                    <span class="ml-2 text-sm text-gray-900 dark:text-white">Remove Image</span>
+                </label>
+            @endif
+            <button type="submit" class="ml-2">Update</button>
+        </form>
+
+        <!-- Nested Replies -->
         @if ($reply->replies)
             @include('partials.replies', ['replies' => $reply->replies])
         @endif
     </div>
 @endforeach
-    

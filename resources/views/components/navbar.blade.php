@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MangaHinog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     
 </head>
 <body>
@@ -30,7 +33,7 @@
                         </a>
                     </li>
                     <li class="relative group">
-                        <a href="#" class="flex items-center space-x-0">
+                        <a href="/threads" class="flex items-center space-x-0">
                             <lottie-player 
                                 src="https://lottie.host/8f35ffc9-2dcc-4517-a89f-fb914a8733dd/5DUeWSmb2i.json" 
                                 background="transparent" 
@@ -38,12 +41,7 @@
                                 class="w-12 h-10 -mr-1" 
                                 loop autoplay></lottie-player>
                             <span class="text-lg mt-3">Browse</span></a>
-                        <ul class="absolute left-0 mt-2 bg-white border rounded shadow-md opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity duration-200 z-40">
-                            <li><a href="{{ url('action') }}" class="block px-4 py-2 hover:bg-gray-200">Action</a></li>
-                            <li><a href="{{ url('another-action') }}" class="block px-4 py-2 hover:bg-gray-200">Another action</a></li>
-                            <li><hr class="border-t"></li>
-                            <li><a href="{{ url('something-else') }}" class="block px-4 py-2 hover:bg-gray-200">Something else here</a></li>
-                        </ul>
+                       
                     </li>
                     
                 </ul>
@@ -100,6 +98,10 @@
     <main>
         {{$slot}}
     </main>
+
+    <footer class="fixed bottom-0 left-0 w-full flex items-center justify-center font-bold text-white bg-gray-600">
+        <p class="ml-2">MangaHinog Copyright &copy; 2024, All Rights reserved</p>
+    </footer>
     
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     

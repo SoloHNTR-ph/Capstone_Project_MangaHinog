@@ -67,13 +67,12 @@ class ThreadController extends Controller
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
     
-        // Handle file upload
+        
         if ($request->has('remove_image')) {
-            // Delete the old image
             if ($thread->image) {
                 Storage::delete('public/' . $thread->image);
             }
-            $formFields['image'] = null;  // Remove image path from the database
+            $formFields['image'] = null;  
         }
         
         if ($request->hasFile('image')) {

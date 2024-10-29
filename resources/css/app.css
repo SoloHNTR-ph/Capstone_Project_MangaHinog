@@ -11,6 +11,10 @@
   font-family: 'Roboto', sans-serif;
 }
 
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
 .bg-video {
   position: fixed;
     top: 0;

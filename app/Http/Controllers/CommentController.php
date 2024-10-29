@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Thread;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CommentController extends Controller
 {
@@ -12,30 +13,50 @@ class CommentController extends Controller
     {
         $request->validate([
             'content' => 'required',
-            'parent_id' => 'nullable|exists:comments,id', 
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $thread->comments()->create([
+        $commentData = [
             'content' => $request->content,
             'user_id' => auth()->id(),
-            'parent_id' => $request->parent_id, 
-        ]);
+        ];
+
+        if ($request->hasFile('image')) {
+            $commentData['image'] = $request->file('image')->store('comments', 'public');
+        }
+
+        $thread->comments()->create($commentData);
 
         return back()->with('message', 'Comment added successfully!');
     }
 
-    public function like(Comment $comment)
+    public function update(Request $request, Comment $comment)
     {
-       $user = auth()->user();
+        $this->authorize('update', $comment);
 
-    
-        if ($comment->likes()->where('user_id', $user->id)->exists()) {
-            $comment->likes()->where('user_id', $user->id)->delete();
-        } else {
-            $comment->likes()->create(['user_id' => $user->id]);
+        $request->validate([
+            'content' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $updateData = ['content' => $request->content];
+
+        if ($request->hasFile('image')) {
+            if ($comment->image) {
+                Storage::delete('public/' . $comment->image);
+            }
+            $updateData['image'] = $request->file('image')->store('comments', 'public');
         }
 
-        return back();
-    }
+        if ($request->has('remove_image')) {
+            if ($comment->image) {
+                Storage::delete('public/' . $comment->image);
+            }
+            $updateData['image'] = null;
+        }
 
+        $comment->update($updateData);
+
+        return back()->with('message', 'Comment updated successfully!');
+    }
 }

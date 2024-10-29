@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
-    protected $fillable = ['content', 'comment_id', 'user_id'];
+    use HasFactory;
+
+    protected $fillable = ['content', 'comment_id', 'user_id', 'parent_id', 'image'];
 
     public function comment()
     {
@@ -17,6 +19,21 @@ class Reply extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Reply::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Reply::class, 'parent_id');
+    }
+
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
     }
 }
 

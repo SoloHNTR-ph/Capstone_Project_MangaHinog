@@ -1,4 +1,6 @@
-<div class="flex justify-center items-center mb-48 mt-32">
+
+
+<div class="flex justify-center items-center mb-48 mt-32 font-sans">
     <video autoplay muted loop class="bg-video">
         <source src="{{ asset('bg-video/bg-video.mp4') }}" type="video/mp4">
     </video>

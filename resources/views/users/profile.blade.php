@@ -1,6 +1,6 @@
 @vite(['resources/css/app.css','resources/js/app.js'])
 <x-navbar>
-    <body>
+    <body class="font-sans">
         
             
         <div class="container mx-auto mt-4 flex space-x-8">

@@ -9,7 +9,7 @@
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body>
-    <div class="flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center justify-center font-sans">
         <div class="mt-8">
             <img src="{{ asset('logo.svg') }}" alt="Icon" width="400" height="300" />
         </div>

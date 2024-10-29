@@ -1,11 +1,11 @@
 
-    @vite(['resources/css/app.css','resources/js/app.js'])
-
+@vite(['resources/css/app.css','resources/js/app.js'])
+<x-navbar>
     <video autoplay muted loop class="bg-video">
         <source src="{{ asset('bg-video/bg-video.mp4') }}" type="video/mp4">
     </video>
 
-    <div class="login-container login-flex">
+    <div class="login-container login-flex mb-96 font-sans">
       <div class="blur-bg">
         <div class="login-page login-flex gap-10">
           <div class="flex flex-col justify-center items-center">
@@ -38,4 +38,4 @@
         </div>
       </div>
     </div>
-
+  </x-navbar>

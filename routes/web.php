@@ -7,9 +7,10 @@ use App\Models\Listing;
 use function Pest\Laravel\get;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\ThreadController;
-use App\Http\Controllers\CommentController;
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
@@ -65,6 +66,8 @@ Route::get('/threads/{thread}', [ThreadController::class, 'show']);
 Route::post('/threads/{thread}/comments', [CommentController::class, 'store']);
 Route::post('/comments/{comment}/like', [CommentController::class, 'like']);
 
+
+Route::post('/threads/{thread}/comments/{comment}/replies', [ReplyController::class, 'store']);
 
 
 

@@ -1,6 +1,6 @@
 @vite(['resources/css/app.css','resources/js/app.js'])
 <x-navbar>
-    <div class="flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center justify-center font-sans">
         <h2 class="my-5 text-lg font-semibold">Update Your Profile</h2>
         <form class="" action="{{ url('/profile/update') }}" method="POST" enctype="multipart/form-data">
             @csrf

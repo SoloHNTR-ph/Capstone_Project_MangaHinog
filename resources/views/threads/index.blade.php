@@ -1,6 +1,6 @@
 @vite(['resources/css/app.css','resources/js/app.js'])
 <x-navbar>
-<section class="flex flex-col items-center justify-center pt-8 px-36">
+<section class="flex flex-col items-center justify-center pt-8 px-36 font-sans gap-4">
     <a href="/threads/create" class="p-2 mb-5 bg-black text-white rounded-full">Create a Thread</a>
     @if (count($threads)==0)
     <p>No Available Thread</p>

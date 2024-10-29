@@ -3,7 +3,7 @@
 <form method="POST" action="/threads/{{ $thread->id }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
-    <div class="flex flex-col mt-10 mx-20 border rounded-lg p-5 gap-4 mb-4 ">
+    <div class="flex flex-col mt-10 mx-20 border rounded-lg p-5 gap-4 mb-4 font-sans">
         <div>
             <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
             <input 
@@ -46,11 +46,11 @@
                     </div>
                 </div>
                 
-                <!-- Checkbox to delete the image -->
+                
             </div>
         @endif
 
-        <!-- File Input for Uploading a New Image -->
+        
         <div class="mt-4">
             <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Upload New Image</label>
             <input 
