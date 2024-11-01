@@ -8,7 +8,7 @@
               <div>
                 <img
                   class="rounded-full"
-                  src="{{ $thread->user->profile_picture ? asset('storage/' . $thread->user->profile_picture) : asset('images/profile_placeholder.png') }}"
+                  src="{{ $thread->user->profile_picture ? asset('storage/' . $thread->user->profile_picture) : asset('profile_placeholder.png') }}"
                   alt=""
                   height="40"
                   width="40"

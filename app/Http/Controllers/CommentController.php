@@ -59,4 +59,17 @@ class CommentController extends Controller
 
         return back()->with('message', 'Comment updated successfully!');
     }
+
+    public function like(Comment $comment) 
+    {
+        $user = auth()->user();
+
+         if ($comment->likes()->where('user_id', $user->id)->exists()) {
+            $comment->likes()->where('user_id', $user->id)->delete();
+        } else {
+            $comment->likes()->create(['user_id' => $user->id]);
+        }
+
+        return back();
+    }
 }

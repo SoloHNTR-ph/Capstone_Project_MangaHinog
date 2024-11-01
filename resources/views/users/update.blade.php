@@ -11,7 +11,7 @@
                         <img src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : asset('profile_placeholder.png') }}" alt="Profile Picture" class="w-32 h-32 rounded-full">
                     </div>
                     <div class="flex justify-center">
-                        <label for="profile_picture" class="block">Profile Picture:</label>
+                        <label for="profile_picture" class="block">Update Profile Picture:</label>
                     </div>
                     <input type="file" name="profile_picture" id="profile_picture">
             
