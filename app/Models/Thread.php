@@ -39,6 +39,16 @@ class Thread extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function commentCount() 
+    {
+        return $this->comments()->count();
+    }
+
+    public function replies()
+    {
+        return $this->comments()->whereNotNull('parent_id');
+    }
+
     
 
 }

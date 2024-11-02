@@ -1,8 +1,8 @@
-@foreach ($replies as $reply)
+@foreach($comment->replies as $reply)
     <div class="pl-10 mt-4 space-y-4 reply-section border-l border-gray-300 p-4">
         <div class="flex gap-3 items-center">
             <div>
-                <img class="rounded-full" src="{{ asset('images/profile_placeholder.png') }}" alt="Profile Image" height="35" width="35" />
+                <img class="rounded-full" src="{{ asset('profile_placeholder.png') }}" alt="Profile Image" height="35" width="35" />
             </div>
             <h1 class="font-bold">{{ $reply->user->name }}</h1>
         </div>
@@ -27,12 +27,17 @@
                     @endif
                 </button>
             </form>
-            <button onclick="toggleReplyForm({{ $reply->id }})" class="text-sm">Reply</button>
+            <div class="flex gap-1">
+                <button onclick="toggleReplyForm({{ $reply->id }})" class="text-sm">Replies</button>
+                @if ($reply->repliesCount() > 0)
+                    <p>{{ $reply->repliesCount() }}</p>
+                @endif
+            </div>
             <button onclick="toggleEditForm({{ $reply->id }})" class="text-sm">Edit</button>
         </div>
 
         <!-- Reply Form -->
-        <form id="reply-form-{{ $comment->id }}" action="{{ url('/threads/' . $thread->id . '/comments/' . $comment->id . '/replies') }}" method="POST" enctype="multipart/form-data">
+        <form id="reply-form-{{ $reply->id }}" action="{{ url('/threads/' . $thread->id . '/comments') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="parent_id" value="{{ $reply->id }}">
             <div class="flex">
@@ -61,9 +66,9 @@
             <button type="submit" class="ml-2">Update</button>
         </form>
 
-        <!-- Nested Replies -->
-        @if ($reply->replies)
-            @include('partials.replies', ['replies' => $reply->replies])
+        
+        @if ($reply->replies->isNotEmpty())
+            @include('partials.replies', ['comment' => $reply])
         @endif
     </div>
 @endforeach

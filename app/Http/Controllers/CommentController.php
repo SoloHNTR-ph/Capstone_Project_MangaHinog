@@ -11,6 +11,8 @@ class CommentController extends Controller
 {
     public function store(Request $request, Thread $thread)
     {
+        // dd($request->all());
+
         $request->validate([
             'content' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -19,6 +21,7 @@ class CommentController extends Controller
         $commentData = [
             'content' => $request->content,
             'user_id' => auth()->id(),
+            'parent_id' => $request->input('parent_id'),
         ];
 
         if ($request->hasFile('image')) {

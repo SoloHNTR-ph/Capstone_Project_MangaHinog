@@ -67,7 +67,7 @@ Route::post('/threads/{thread}/comments', [CommentController::class, 'store']);
 Route::post('/comments/{comment}/like', [CommentController::class, 'like']);
 
 
-Route::post('/threads/{thread}/comments/{comment}/replies', [ReplyController::class, 'store']);
+
 
 
 

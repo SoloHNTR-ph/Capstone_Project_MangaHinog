@@ -9,7 +9,7 @@ class Comment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['content', 'thread_id', 'user_id', 'image'];
+    protected $fillable = ['content', 'thread_id', 'user_id', 'image', 'parent_id'];
 
     public function thread()
     {
@@ -23,7 +23,14 @@ class Comment extends Model
 
     public function replies()
     {
-        return $this->hasMany(Reply::class);
+        return $this->hasMany(Comment::class, 'parent_id')->whereNotNull('parent_id');
+    }
+
+    public function repliesCount()
+    {
+        return $this->replies()->with('replies')->get()->reduce(function ($carry, $reply) {
+            return $carry + 1 + $reply->repliesCount();
+        }, 0);
     }
 
     public function likes()

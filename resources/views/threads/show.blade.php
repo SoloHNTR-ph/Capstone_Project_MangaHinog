@@ -63,23 +63,28 @@
             @endif
         </form>
         
-        <button>
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                style="fill: rgba(0, 0, 0, 1); transform: msfilter"
-            >
-                <path
-                    d="M20 2H4c-1.103 0-2 .897-2 2v18l5.333-4H20c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm0 14H6.667L4 18V4h16v12z"
-                ></path>
-            </svg>
-            
-        </button>
+        <div class="flex gap-1">
+            <button>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    style="fill: rgba(0, 0, 0, 1); transform: msfilter"
+                >
+                    <path
+                        d="M20 2H4c-1.103 0-2 .897-2 2v18l5.333-4H20c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm0 14H6.667L4 18V4h16v12z"
+                    ></path>
+                </svg>
+                
+            </button>
+            @if ($thread->commentCount() > 0)
+                <p>{{ $thread->commentCount() }}</p>
+            @endif
+        </div>
     </div>
     </div>
-      <form  class="mt-8 w-full border border-gray-400 rounded relative" action="/threads/{{ $thread->id }}/comments" method="POST">
+      <form  class="mt-8 w-full border border-gray-400 rounded relative" action="/threads/{{ $thread->id }}/comments" method="POST" enctype="multipart/form-data">
       @csrf
         <div class="w-full p-2">
             <textarea name="content"   
@@ -90,8 +95,12 @@
              cols="3" rows="1"></textarea>
         </div>
         <div id="button-container" class="hidden">
-            <div class="flex mb-2 me-2 justify-end gap-3">
-                <button
+            <div class="flex mb-2 me-2 justify-between gap-3">
+                <div>
+                    <input type="file" name="image">
+                </div>
+                <div>
+                    <button
                     type="button"
                     class="px-2 py-1 bg-gray-600 text-white rounded-full hover:bg-gray-700"
                     onclick="hideButtons()"
@@ -104,6 +113,7 @@
                 >
                     Comment
                 </button>
+                </div>
             </div>
         </div>
       </form>
@@ -114,7 +124,7 @@
   {{-- comments  --}}
   <section class="mx-20">
     <div class="p-4 mb-4">
-      @foreach ($thread->comments as $comment)
+      @foreach($thread->comments->where('parent_id', null) as $comment)
       <div class="flex gap-3 items-center">
           <div>
               <img class="rounded-full" src="{{ $comment->user->profile_picture ? asset('storage/' . $comment->user->profile_picture) : asset('profile_placeholder.png') }}" alt="" height="35" width="35" />
@@ -150,12 +160,18 @@
                   <p>{{ $comment->likes->count() }}</p>
               @endif
           </form>
-          <button onclick="toggleReplyForm({{ $comment->id }})" class="text-sm">Reply</button>
+          <div class="flex gap-1">
+            <button onclick="toggleReplyForm({{ $comment->id }})" class="text-sm">Replies</button>
+            @if ($thread->replies()->count() > 0)
+                <p>{{ $thread->replies()->count() }}</p>
+            @endif
+          </div>
+          
           <button onclick="toggleEditForm({{ $comment->id }})" class="text-sm">Edit</button>
       </div>
   
       
-      {{-- <form id="reply-form-{{ $comment->id }}" action="{{ url('/threads/' . $thread->id . '/comments/' . $comment->id . '/replies') }}" method="POST" enctype="multipart/form-data">
+      <form id="reply-form-{{ $comment->id }}" action="/threads/{{ $thread->id }}/comments" method="POST" enctype="multipart/form-data">
           @csrf
           <input type="hidden" name="parent_id" value="{{ $comment->id }}">
           <div class="flex">
@@ -182,7 +198,7 @@
               </label>
           @endif
           <button type="submit" class="ml-2">Update</button>
-      </form> --}}
+      </form>
 
       @if ($comment->replies)
           @include('partials.replies', ['replies' => $comment->replies])
