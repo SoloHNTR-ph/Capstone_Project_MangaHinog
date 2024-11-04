@@ -38,7 +38,7 @@ window.hideButtons = function () {
 
   
   //   reply minimize
-  document.querySelectorAll('.toggle-btn').forEach(button => {
+  document.querySelectorAll('.toggle-reply').forEach(button => {
       
       const replySection = button.parentElement.nextElementSibling;
     

@@ -140,7 +140,7 @@
       @endif
   
       <div class="flex gap-4 mt-3 items-center">
-          <button class="toggle-btn">-</button>
+          <button class="toggle-reply">-</button>
           <form class="flex gap-1" action="/comments/{{ $comment->id }}/like" method="POST">
               @csrf
               @if ($comment->likes()->where('user_id', auth()->id())->count() > 0)
@@ -161,7 +161,9 @@
               @endif
           </form>
           <div class="flex gap-1">
-            <button onclick="toggleReplyForm({{ $comment->id }})" class="text-sm">Replies</button>
+            <button onclick="toggleReplyForm({{ $comment->id }})" class="text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M10 11h6v7h2v-8a1 1 0 0 0-1-1h-7V6l-5 4 5 4v-3z"></path></svg>
+            </button>
             @if ($thread->replies()->count() > 0)
                 <p>{{ $thread->replies()->count() }}</p>
             @endif
@@ -171,7 +173,7 @@
       </div>
   
       
-      <form id="reply-form-{{ $comment->id }}" action="/threads/{{ $thread->id }}/comments" method="POST" enctype="multipart/form-data">
+      {{-- <form id="reply-form-{{ $comment->id }}" action="/threads/{{ $thread->id }}/comments" method="POST" enctype="multipart/form-data">
           @csrf
           <input type="hidden" name="parent_id" value="{{ $comment->id }}">
           <div class="flex">
@@ -198,7 +200,7 @@
               </label>
           @endif
           <button type="submit" class="ml-2">Update</button>
-      </form>
+      </form> --}}
 
       @if ($comment->replies)
           @include('partials.replies', ['replies' => $comment->replies])

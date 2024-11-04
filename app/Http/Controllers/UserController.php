@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Like;
 use App\Models\User;
+use App\Models\Thread;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +39,13 @@ class UserController extends Controller
     // profile
     public function showProfile()
     {
-        return view('users.profile');
+        $user = auth()->user(); 
+        $threadCount = Thread::where('user_id', $user->id)->count();
+        $commentCount = Comment::where('user_id', $user->id)->count();
+        $userThreads = Thread::where('user_id', $user->id)->latest()->get();
+        $userComments = Comment::where('user_id', $user->id)->latest()->get();
+        
+        return view('users.profile', compact('user', 'threadCount', 'commentCount', 'userThreads', 'userComments'));
     }
 
     // update
@@ -104,7 +112,23 @@ class UserController extends Controller
         
     }
 
-    
+    public function destroy(Request $request)
+    {
+        if (Auth::check()) 
+        {
+            $user = Auth::user();
 
+            if ($user->profile_picture) 
+            {
+                Storage::delete($user->profile_picture);
+            }
+
+            User::find(Auth::id())->delete();
+
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect('/login')->with('message', 'Your account has been deleted successfully.');
+        }
+    }  
 }
-

@@ -33,6 +33,7 @@ Route::get('/', function () {
 
 // logout route 
 Route::post('/logout', [UserController::class, 'logout']);
+Route::delete('/profile/delete', [UserController::class, 'destroy']);
 
 
 // login route 

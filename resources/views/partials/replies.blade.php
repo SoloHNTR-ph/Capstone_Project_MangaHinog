@@ -13,6 +13,7 @@
         @endif
 
         <div class="flex gap-4 mt-3">
+            <button class="toggle-reply">-</button>
             <form class="flex gap-1" action="/comments/{{ $reply->id }}/like" method="POST">
                 @csrf
                 <button type="submit">
@@ -26,9 +27,12 @@
                         </svg>
                     @endif
                 </button>
+                @if($reply->likes->count() > 0)
+                  <p>{{ $reply->likes->count() }}</p>
+              @endif
             </form>
             <div class="flex gap-1">
-                <button onclick="toggleReplyForm({{ $reply->id }})" class="text-sm">Replies</button>
+                <button onclick="toggleReplyForm({{ $reply->id }})" class="text-sm"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M10 11h6v7h2v-8a1 1 0 0 0-1-1h-7V6l-5 4 5 4v-3z"></path></svg></button>
                 @if ($reply->repliesCount() > 0)
                     <p>{{ $reply->repliesCount() }}</p>
                 @endif

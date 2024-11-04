@@ -17,8 +17,8 @@
                         <img src="{{ asset('profile_placeholder.png') }}" alt="Profile Picture" class="w-16 h-16 rounded-full">
                         @endif
                     <div>
-                        <h1 class="text-xl font-semibold">{{auth()->user()->name}}</h1>
-                        <button>Edit</button>
+                        <h1 class="text-2xl font-semibold">{{auth()->user()->name}}</h1>
+                        
                     </div>
                     </div>
                     <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" class="inline-flex items-center text-sm font-medium text-center text-gray-900 bg-white rounded-lg  dark:text-white dark:bg-gray-800" type="button">
@@ -27,11 +27,16 @@
                         </svg>
                         </button>
                         
-                        <!-- Dropdown menu -->
+                        {{-- dropdown  --}}
                         <div id="dropdownDots" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow  dark:bg-gray-700 dark:divide-gray-600">
                             <ul class=" text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
                               <li>
                                 <a href="/profile/edit" class="block px-2 py-2 text-black">Edit Profile</a>
+                                <form action="{{ url('/profile/delete') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="block px-2 py-2 text-black">Delete Account</button>
+                                </form>
                               </li>
                               
                               
@@ -40,22 +45,46 @@
                         </div>
                 </div>
             </div>
-        <div class="bg-white mt-4 p-4 shadow-md rounded-lg">
-            <nav class="flex space-x-6 text-sm">
-                <a href="#" class="text-gray-500 hover:text-black border-b-2 border-blue-500 pb-1">Overview</a>
-                <a href="#" class="text-gray-500 hover:text-black">Posts</a>
-              <a href="#" class="text-gray-500 hover:text-black">Comments</a>
-              <a href="#" class="text-gray-500 hover:text-black">Saved</a>
-              <a href="#" class="text-gray-500 hover:text-black">Hidden</a>
-              <a href="#" class="text-gray-500 hover:text-black">Upvoted</a>
-              <a href="#" class="text-gray-500 hover:text-black">Downvoted</a>
-            </nav>
-        </div>
+            <div x-data="{ activeSection: 'overview' }" class="bg-white my-4 p-4 shadow-md rounded-lg">
+                <nav class="flex space-x-6 text-sm">
+                    <button 
+                        @click="activeSection = 'overview'" 
+                        :class="activeSection === 'overview' ? 'text-black border-b-2 border-blue-500' : 'text-gray-500 hover:text-black'"
+                        class="pb-1"
+                    >
+                        Overview
+                    </button>
+                    <button 
+                        @click="activeSection = 'posts'" 
+                        :class="activeSection === 'posts' ? 'text-black border-b-2 border-blue-500' : 'text-gray-500 hover:text-black'"
+                        class="pb-1"
+                    >
+                        Posts
+                    </button>
+                    <button 
+                        @click="activeSection = 'comments'" 
+                        :class="activeSection === 'comments' ? 'text-black border-b-2 border-blue-500' : 'text-gray-500 hover:text-black'"
+                        class="pb-1"
+                    >
+                        Comments
+                    </button>
+                </nav>
+            
+                <div class="mt-4">
+                    <div x-show="activeSection === 'overview'">
+                        @include('partials.overview')
+                    </div>
+                    <div x-show="activeSection === 'posts'" x-cloak>
+                        @include('partials.posts')
+                    </div>
+                    <div x-show="activeSection === 'comments'" x-cloak>
+                        @include('partials.comments')
+                    </div>
+                </div>
+            </div>
+            
         
-          <div class="flex flex-col items-center mt-8">
-            <img src="https://i.pinimg.com/736x/40/17/ff/4017ff5023129ff95d38a2e11b2d9f6e.jpg" alt="Snoo" class="w-24 h-24 rounded-full">
-            <p class="mt-4 text-lg text-gray-600">HAHAHEHEHIHIHOHOKAL</p>
-        </div>
+          
         </div>
     
     <div class="w-1/4">
@@ -64,7 +93,7 @@
             
             
             <div class="mt-4">
-                <p>1 Post</p>
+                <p>{{ $threadCount }} Post</p>
                 <p>0 Comment </p>
             </div>
             
