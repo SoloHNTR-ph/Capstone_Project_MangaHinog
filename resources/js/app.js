@@ -75,6 +75,7 @@ const dropdownButton = document.getElementById('userDropdownButton');
             dropdownMenu.classList.add('hidden');
         }
     });
+    
 
 // dropdown 
 
@@ -102,3 +103,4 @@ function closeAllDropdowns() {
       dropdownMenu.classList.add('hidden');
   });
 }
+
