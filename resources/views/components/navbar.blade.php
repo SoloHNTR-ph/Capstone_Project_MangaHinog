@@ -107,7 +107,7 @@
               <img src="logo.svg" alt="Manga Universe Logo" class="h-20 w-95 rounded-full bg-gray-800 p-2">
               
             </div>
-            <p class="text-gray-400">Dive into a world of manga and discover your next favorite series! Stay updated with the latest releases and enjoy reading manga with our curated collection.</p>
+            <p class="text-gray-400">Dive into a world of manga and discover your next favorite series!</p>
             <div class="mt-4 flex space-x-4">
               <a href="#" class="text-gray-400 hover:text-blue-500"><i class="fab fa-facebook fa-lg"></i></a>
               <a href="#" class="text-gray-400 hover:text-blue-400"><i class="fab fa-twitter fa-lg"></i></a>
@@ -120,8 +120,7 @@
             <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
             <ul class="space-y-2">
               <li><a href="#" class="hover:text-gray-300">Home</a></li>
-              <li><a href="#" class="hover:text-gray-300">Browse Manga</a></li>
-              <li><a href="#" class="hover:text-gray-300">Popular</a></li>
+              <li><a href="#" class="hover:text-gray-300">Browse</a></li>
               <li><a href="#" class="hover:text-gray-300">Contact</a></li>
             </ul>
           </div>
@@ -129,7 +128,7 @@
           <div>
             <h3 class="text-xl font-semibold mb-4">Contact Us</h3>
             <ul class="space-y-2 text-gray-400">
-              <li><i class="fas fa-envelope"></i> <a href="mailto:info@mangauniverse.com" class="hover:text-gray-300">info@mangauniverse.com</a></li>
+              <li><i class="fas fa-envelope"></i> <a href="mailto:info@mangauniverse.com" class="hover:text-gray-300">info@mangahinog.com</a></li>
               <li><i class="fas fa-phone"></i> <a href="tel:+123456789" class="hover:text-gray-300">+1 (234) 567-89</a></li>
               <li><i class="fas fa-map-marker-alt"></i> 123 Manga St, Comic City</li>
             </ul>

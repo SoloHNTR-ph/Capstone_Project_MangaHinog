@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     });
-  });
+});
   
   // Comment funtion
 window.showButtons = function () {
@@ -38,26 +38,26 @@ window.hideButtons = function () {
 
   
   //   reply minimize
-  document.querySelectorAll('.toggle-reply').forEach(button => {
+  // document.querySelectorAll('.toggle-reply').forEach(button => {
       
-      const replySection = button.parentElement.nextElementSibling;
+  //     const replySection = button.parentElement.nextElementSibling;
     
-      if (replySection.classList.contains('hidden')) {
-        button.textContent = '+'; 
-      } else {
-        button.textContent = '-'; 
-      }
+  //     if (replySection.classList.contains('hidden')) {
+  //       button.textContent = '+'; 
+  //     } else {
+  //       button.textContent = '-'; 
+  //     }
     
-      button.addEventListener('click', function () {
-        replySection.classList.toggle('hidden'); 
+  //     button.addEventListener('click', function () {
+  //       replySection.classList.toggle('hidden'); 
     
-        if (replySection.classList.contains('hidden')) {
-          this.textContent = '+'; 
-        } else {
-          this.textContent = '-'; 
-        }
-      });
-    });
+  //       if (replySection.classList.contains('hidden')) {
+  //         this.textContent = '+'; 
+  //       } else {
+  //         this.textContent = '-'; 
+  //       }
+  //     });
+  //   });
     
     
 // toggle icon
@@ -75,3 +75,30 @@ const dropdownButton = document.getElementById('userDropdownButton');
             dropdownMenu.classList.add('hidden');
         }
     });
+
+// dropdown 
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('[data-dropdown-toggle]').forEach(button => {
+      const dropdownId = button.getAttribute('data-dropdown-toggle');
+      const dropdownMenu = document.getElementById(dropdownId);
+
+      button.addEventListener('click', function (event) {
+          event.stopPropagation();
+          closeAllDropdowns();
+          dropdownMenu.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', function () {
+          dropdownMenu.classList.add('hidden');
+      });
+  });
+});
+
+function closeAllDropdowns() {
+  document.querySelectorAll('[data-dropdown-toggle]').forEach(button => {
+      const dropdownId = button.getAttribute('data-dropdown-toggle');
+      const dropdownMenu = document.getElementById(dropdownId);
+      dropdownMenu.classList.add('hidden');
+  });
+}

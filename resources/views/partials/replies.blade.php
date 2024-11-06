@@ -1,10 +1,36 @@
 @foreach($comment->replies as $reply)
     <div class="pl-10 mt-4 space-y-4 reply-section border-l border-gray-300 p-4">
-        <div class="flex gap-3 items-center">
-            <div>
-                <img class="rounded-full" src="{{ asset('profile_placeholder.png') }}" alt="Profile Image" height="35" width="35" />
+        <div class="flex items-center justify-between">
+            <div class="flex gap-3 items center">
+                <div>
+                    <img class="rounded-full" src="{{ $reply->user->profile_picture ? asset('storage/' . $reply->user->profile_picture) : asset('profile_placeholder.png') }}" alt="Profile Image" height="35" width="35" />
+                </div>
+                <h1 class="font-bold">{{ $reply->user->name }}</h1>
             </div>
-            <h1 class="font-bold">{{ $reply->user->name }}</h1>
+            @if (auth()->id() === $reply->user_id)
+            <button id="dropdownMenuIconHorizontalButton-{{$reply->id}}" data-dropdown-toggle="dropdownDotsHorizontal-{{$reply->id}}" class="inline-flex items-center p-2 text-sm font-medium text-center " type="button"> 
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                  <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                </svg>
+              </button>
+              
+              <!-- Dropdown menu -->
+              <div id="dropdownDotsHorizontal-{{$reply->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton-{{$reply->id}}">
+                    <li>
+                        <button onclick="toggleEditForm({{ $reply->id }})" class="text-sm text-blue-500">Edit</button>
+                    </li>
+                    <li>
+                        <form action="/comments/{{$reply->id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="px-4 py-2">Delete</button>
+                        </form>
+                    </li>
+                    
+                  </ul>
+              </div>
+            @endif
         </div>
         <p class="font-normal text-gray-700 dark:text-gray-400">{{ $reply->content }}</p>
         
@@ -13,7 +39,7 @@
         @endif
 
         <div class="flex gap-4 mt-3">
-            <button class="toggle-reply">-</button>
+            
             <form class="flex gap-1" action="/comments/{{ $reply->id }}/like" method="POST">
                 @csrf
                 <button type="submit">
@@ -37,11 +63,11 @@
                     <p>{{ $reply->repliesCount() }}</p>
                 @endif
             </div>
-            <button onclick="toggleEditForm({{ $reply->id }})" class="text-sm">Edit</button>
+           
         </div>
 
         <!-- Reply Form -->
-        <form id="reply-form-{{ $reply->id }}" action="{{ url('/threads/' . $thread->id . '/comments') }}" method="POST" enctype="multipart/form-data">
+        <form id="reply-form-{{ $reply->id }}" class="hidden" action="{{ url('/threads/' . $thread->id . '/comments') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="parent_id" value="{{ $reply->id }}">
             <div class="flex">
@@ -55,20 +81,23 @@
             </div>
         </form>
 
-        <!-- Edit Form -->
-        <form id="edit-form-{{ $reply->id }}" action="/replies/{{ $reply->id }}/edit" method="POST" enctype="multipart/form-data" class="hidden w-full items-center">
+        <form id="edit-form-{{ $reply->id }}" action="{{ url('/comments/' . $reply->id) }}" method="POST" enctype="multipart/form-data" class="hidden mt-2">
             @csrf
             @method('PUT')
             <textarea name="content" class="w-full h-12 rounded">{{ $reply->content }}</textarea>
-            <input type="file" name="image" class="ml-2">
+            <input type="file" name="image" class="mt-2">
+            
             @if($reply->image)
-                <label class="inline-flex items-center ml-2">
+                <label class="inline-flex items-center mt-2">
                     <input type="checkbox" name="remove_image" value="1" class="form-checkbox">
-                    <span class="ml-2 text-sm text-gray-900 dark:text-white">Remove Image</span>
+                    <span class="ml-2 text-sm text-gray-900">Remove Image</span>
                 </label>
             @endif
-            <button type="submit" class="ml-2">Update</button>
+            
+            <button type="submit" class="text-sm text-green-500 mt-2">Save</button>
+            <button type="button" onclick="toggleEditForm({{ $reply->id }})" class="text-sm text-red-500 mt-2">Cancel</button>
         </form>
+
 
         
         @if ($reply->replies->isNotEmpty())

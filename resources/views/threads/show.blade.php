@@ -23,8 +23,29 @@
          <p class="text-black text-xs">Posted {{ $thread->created_at->diffForHumans() }}</p>
         @endif
         @if (auth()->id() == $thread->user_id)
-        <a href="/threads/{{ $thread->id }}/edit" class="bg-black text-white py-1 px-2 rounded-full items-center flex">Edit</a>
-      @endif
+        <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" class="inline-flex items-center text-sm font-medium text-center text-gray-900 bg-white rounded-lg  dark:text-white dark:bg-gray-800" type="button">
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
+            <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+            </svg>
+            </button>
+            
+            {{-- dropdown  --}}
+            <div id="dropdownDots" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow  dark:bg-gray-700 dark:divide-gray-600">
+                <ul class=" text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
+                  <li>
+                    <a href="/threads/{{ $thread->id }}/edit" class=" text-black ">Edit</a>
+                    <form action="/threads/{{ $thread->id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this thread?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                  </li>
+                  
+                  
+                </ul>
+                
+            </div>
+        @endif
       </div>
 
     </div>
@@ -95,7 +116,7 @@
              cols="3" rows="1"></textarea>
         </div>
         <div id="button-container" class="hidden">
-            <div class="flex mb-2 me-2 justify-between gap-3">
+            <div class="flex mb-2 me-2 justify-between gap-3 px-5">
                 <div>
                     <input type="file" name="image">
                 </div>
@@ -125,11 +146,38 @@
   <section class="mx-20">
     <div class="p-4 mb-4">
       @foreach($thread->comments->where('parent_id', null) as $comment)
-      <div class="flex gap-3 items-center">
-          <div>
-              <img class="rounded-full" src="{{ $comment->user->profile_picture ? asset('storage/' . $comment->user->profile_picture) : asset('profile_placeholder.png') }}" alt="" height="35" width="35" />
+      <div class="flex gap-3 items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div>
+                <img class="rounded-full" src="{{ $comment->user->profile_picture ? asset('storage/' . $comment->user->profile_picture) : asset('profile_placeholder.png') }}" alt="" height="35" width="35" />
+            </div>
+            <h1 class="font-bold">{{ $comment->user->name }}</h1>
           </div>
-          <h1 class="font-bold">{{ $comment->user->name }}</h1>
+          @if(auth()->id() === $comment->user_id)
+          <button id="dropdownMenuIconHorizontalButton-{{$comment->id}}" data-dropdown-toggle="dropdownDotsHorizontal-{{$comment->id}}" class="inline-flex items-center p-2 text-sm font-medium text-center " type="button"> 
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+              <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+            </svg>
+          </button>
+          
+          <!-- Dropdown menu -->
+          <div id="dropdownDotsHorizontal-{{$comment->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton-{{$comment->id}}">
+                <li>
+                    <button onclick="toggleEditForm({{ $comment->id }})" class="text-sm text-blue-500">Edit</button>
+                </li>
+                <li>
+                    <form action="/comments/{{$comment->id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="px-4 py-2">Delete</button>
+                    </form>
+                </li>
+                
+              </ul>
+          </div>
+          
+          @endif
       </div>
       <p class="font-normal text-gray-700 dark:text-gray-400">
           {{ $comment->content }}
@@ -140,7 +188,7 @@
       @endif
   
       <div class="flex gap-4 mt-3 items-center">
-          <button class="toggle-reply">-</button>
+          
           <form class="flex gap-1" action="/comments/{{ $comment->id }}/like" method="POST">
               @csrf
               @if ($comment->likes()->where('user_id', auth()->id())->count() > 0)
@@ -164,16 +212,15 @@
             <button onclick="toggleReplyForm({{ $comment->id }})" class="text-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M10 11h6v7h2v-8a1 1 0 0 0-1-1h-7V6l-5 4 5 4v-3z"></path></svg>
             </button>
-            @if ($thread->replies()->count() > 0)
-                <p>{{ $thread->replies()->count() }}</p>
+            @if ($comment->repliesCount() > 0)
+                <p>{{ $comment->repliesCount() }}</p>
             @endif
           </div>
           
-          <button onclick="toggleEditForm({{ $comment->id }})" class="text-sm">Edit</button>
       </div>
   
       
-      {{-- <form id="reply-form-{{ $comment->id }}" action="/threads/{{ $thread->id }}/comments" method="POST" enctype="multipart/form-data">
+      <form id="reply-form-{{ $comment->id }}" class="hidden" action="/threads/{{ $thread->id }}/comments" method="POST" enctype="multipart/form-data">
           @csrf
           <input type="hidden" name="parent_id" value="{{ $comment->id }}">
           <div class="flex">
@@ -186,22 +233,25 @@
               </button>
           </div>
       </form>
-  
-      <!-- Edit Form -->
-      <form id="edit-form-{{ $comment->id }}" action="/comments/{{ $comment->id }}/edit" method="POST" enctype="multipart/form-data" class="hidden w-full items-center">
-          @csrf
-          @method('PUT')
-          <textarea name="content" class="w-full h-12 rounded">{{ $comment->content }}</textarea>
-          <input type="file" name="image" class="ml-2">
-          @if($comment->image)
-              <label class="inline-flex items-center ml-2">
-                  <input type="checkbox" name="remove_image" value="1" class="form-checkbox">
-                  <span class="ml-2 text-sm text-gray-900 dark:text-white">Remove Image</span>
-              </label>
-          @endif
-          <button type="submit" class="ml-2">Update</button>
-      </form> --}}
 
+      <form id="edit-form-{{ $comment->id }}" class="hidden" action="/comments/{{$comment->id}}" method="POST" enctype="multipart/form-data" >
+        @csrf
+        @method('PUT')
+        <textarea name="content" class="w-full h-12 rounded">{{ $comment->content }}</textarea>
+        <input type="file" name="image" class="mt-2">
+        
+        @if($comment->image)
+            <label class="inline-flex items-center mt-2">
+                <input type="checkbox" name="remove_image" value="1" class="form-checkbox">
+                <span class="ml-2 text-sm text-gray-900">Remove Image</span>
+            </label>
+        @endif
+        
+        <button type="submit" class="text-sm text-green-500 mt-2">Save</button>
+        <button type="button" onclick="toggleEditForm({{ $comment->id }})" class="text-sm text-red-500 mt-2">Cancel</button>
+    </form>
+  
+      
       @if ($comment->replies)
           @include('partials.replies', ['replies' => $comment->replies])
       @endif
@@ -218,8 +268,10 @@
             replyForm.classList.add('hidden');
         }
     }
+    function toggleEditForm(id) {
+        const form = document.getElementById(`edit-form-${id}`);
+        form.classList.toggle('hidden');
+    }
 </script>
   
   </x-navbar>
-
-

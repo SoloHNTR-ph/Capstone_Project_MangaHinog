@@ -35,32 +35,37 @@ class CommentController extends Controller
 
     public function update(Request $request, Comment $comment)
     {
-        $this->authorize('update', $comment);
 
-        $request->validate([
-            'content' => 'required',
+        $formFields = $request->validate([
+            'content' => 'required|string|max:500',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $updateData = ['content' => $request->content];
 
         if ($request->hasFile('image')) {
             if ($comment->image) {
                 Storage::delete('public/' . $comment->image);
             }
-            $updateData['image'] = $request->file('image')->store('comments', 'public');
+            $formFields['image'] = $request->file('image')->store('comments', 'public');
         }
 
         if ($request->has('remove_image')) {
             if ($comment->image) {
                 Storage::delete('public/' . $comment->image);
             }
-            $updateData['image'] = null;
+            $formFields['image'] = null;
         }
 
-        $comment->update($updateData);
+        $comment->update($formFields);
 
         return back()->with('message', 'Comment updated successfully!');
+    }
+
+    public function destroy(Comment $comment)
+    {
+        $comment->delete();
+
+        return back();
     }
 
     public function like(Comment $comment) 

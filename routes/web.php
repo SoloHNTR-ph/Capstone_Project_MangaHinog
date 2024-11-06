@@ -65,7 +65,11 @@ Route::get('/threads/{thread}', [ThreadController::class, 'show']);
 
 // Comments route  
 Route::post('/threads/{thread}/comments', [CommentController::class, 'store']);
+Route::put('/comments/{comment}', [CommentController::class, 'update']);
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);    
 Route::post('/comments/{comment}/like', [CommentController::class, 'like']);
+
+Route::delete('/threads/{thread}', [ThreadController::class, 'destroy']);
 
 
 

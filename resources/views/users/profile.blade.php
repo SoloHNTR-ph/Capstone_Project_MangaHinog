@@ -32,7 +32,7 @@
                             <ul class=" text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
                               <li>
                                 <a href="/profile/edit" class="block px-2 py-2 text-black">Edit Profile</a>
-                                <form action="{{ url('/profile/delete') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">
+                                <form action="/profile/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="block px-2 py-2 text-black">Delete Account</button>
@@ -94,7 +94,7 @@
             
             <div class="mt-4">
                 <p>{{ $threadCount }} Post</p>
-                <p>0 Comment </p>
+                <p>{{ $commentCount }} Comments</p>
             </div>
             
             <div class="mt-4">

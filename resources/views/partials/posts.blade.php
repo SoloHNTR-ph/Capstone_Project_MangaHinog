@@ -1,6 +1,6 @@
 @if($userThreads->isNotEmpty())
     <h3>Your Threads:</h3>
-    <ul>
+    <ul class="flex flex-col gap-2">
         @foreach($userThreads as $thread)
             <li class="flex gap-2 items-center">
                 <a href="{{ url('/threads/' . $thread->id) }}" class="text-white p-1 bg-black rounded-lg">{{ $thread->title }}</a>

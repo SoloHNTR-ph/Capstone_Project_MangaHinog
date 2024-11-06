@@ -88,6 +88,18 @@ class ThreadController extends Controller
         return redirect('/threads/' . $thread->id)->with('message', 'Thread updated successfully!');
     }
 
+    // delete 
+    public function destroy(Thread $thread)
+    {
+        if ($thread->image) {
+            Storage::delete('public/' . $thread->image);
+        }
+
+        $thread->delete();
+
+        return redirect('/threads')->with('message', 'Thread deleted successfully!');
+    }
+
 
     // Likes
     public function like(Thread $thread)
