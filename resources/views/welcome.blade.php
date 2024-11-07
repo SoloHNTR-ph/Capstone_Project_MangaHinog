@@ -9,7 +9,7 @@
         <p class="text-gray-600 dark:text-gray-300 mb-10 max-w-lg mx-auto text-lg">Explore the forum below and find answers to all of your questions. Engage with others and share your insights in a friendly community.</p>
         
         @auth
-        <a href="/login"
+        <a href="/threads/create"
         class="bg-gray-800 text-white py-2 px-6 rounded-md inline-flex items-center justify-center space-x-2 shadow hover:bg-gray-900 transition duration-300 ease-in-out">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
@@ -17,7 +17,7 @@
             <span>Create New Post</span>
         </a>
         @else
-        <a href="/threads/create"
+        <a href="/login"
         class="bg-gray-800 text-white py-2 px-6 rounded-md inline-flex items-center justify-center space-x-2 shadow hover:bg-gray-900 transition duration-300 ease-in-out">
             <span>Log In To Create A Post</span>
         </a>

@@ -127,7 +127,7 @@
                     @endif
                 </div>
                 
-                <p class="font-normal text-gray-700 dark:text-gray-400">{{ $comment->content }}</p>
+                <p class="font-normal mt-3 ms-5 text-gray-700 dark:text-gray-400">{{ $comment->content }}</p>
                 @if($comment->image)
                     <img src="{{ asset('storage/' . $comment->image) }}" alt="Comment Image" class="mt-2 max-w-xs rounded">
                 @endif
