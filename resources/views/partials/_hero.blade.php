@@ -13,9 +13,9 @@
               <span class="hidden sm:inline">Dive into the wild world of manga discussions and fan theories!</span>
           </p>
           @auth
-          <button class="mt-8 bg-white text-black px-6 py-3 rounded-lg font-bold"><a href="/threads">Get Started</a></button>
+          <button class="mt-8 bg-white text-black px-6 py-3 rounded-lg font-bold hover:bg-black hover:text-white"><a href="/threads">Get Started</a></button>
           @else
-          <button class="mt-8 bg-white text-black px-6 py-3 rounded-lg font-bold"><a href="/login">Log In</a></button>
+          <button class="mt-8 bg-white text-black px-6 py-3 rounded-lg font-bold hover:bg-black hover:text-white"><a href="/login">Log In</a></button>
           @endauth
       </div>
   </div>

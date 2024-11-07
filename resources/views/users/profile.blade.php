@@ -9,9 +9,9 @@
                     <div class="flex justify-between space-x-4">
                         <div class="flex items-center gap-3">
                             @if (auth()->user()->profile_picture)
-                                <img src="{{ asset('storage/' . auth()->user()->profile_picture) }}" alt="Profile Picture" class="w-16 h-16 rounded-full">
+                                <img src="{{ asset('storage/' . auth()->user()->profile_picture) }}" alt="Profile Picture" class="rounded-full w-16 h-16 object-cover">
                             @else
-                                <img src="{{ asset('profile_placeholder.png') }}" alt="Profile Picture" class="w-16 h-16 rounded-full">
+                                <img src="{{ asset('profile_placeholder.png') }}" alt="Profile Picture" class="rounded-full w-16 h-16 object-cover">
                             @endif
                             <div>
                                 <h1 class="text-2xl font-semibold">{{ auth()->user()->name }}</h1>

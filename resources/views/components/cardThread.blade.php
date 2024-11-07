@@ -7,11 +7,10 @@
             <div class="flex gap-3 items-center">
               <div>
                 <img
-                  class="rounded-full"
+                  class="rounded-full w-10 h-10 object-cover"
                   src="{{ $thread->user->profile_picture ? asset('storage/' . $thread->user->profile_picture) : asset('profile_placeholder.png') }}"
                   alt=""
-                  height="40"
-                  width="40"
+
                 />
               </div>
               <h1 class="font-bold text-lg">{{ $thread->user->name }}</h1>

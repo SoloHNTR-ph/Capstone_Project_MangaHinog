@@ -6,7 +6,7 @@
     
     <main class="text-center py-20 px-6 bg-white dark:bg-gray-800 font-sans">
         <h1 class="text-5xl font-bold text-gray-800 dark:text-white mb-4">Join the Talk.</h1>
-        <p class="text-gray-600 dark:text-gray-300 mb-10 max-w-lg mx-auto">Explore the forum below and find answers to all of your questions. Engage with others and share your insights in a friendly community.</p>
+        <p class="text-gray-600 dark:text-gray-300 mb-10 max-w-lg mx-auto text-lg">Explore the forum below and find answers to all of your questions. Engage with others and share your insights in a friendly community.</p>
         
         @auth
         <a href="/login"

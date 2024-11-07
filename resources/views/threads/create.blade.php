@@ -42,7 +42,7 @@
         </div>
         
         <div class="flex justify-end mb-5 mx-4 sm:mx-8 md:mx-20 ">
-            <button type="submit" class="text-white bg-black flex items-center justify-center font-bold rounded-full py-2 px-4 text-center">
+            <button type="submit" class="text-white bg-black hover:bg-red-800 flex items-center justify-center font-bold rounded-full py-2 px-4 text-center">
                 Post
             </button>
         </div>

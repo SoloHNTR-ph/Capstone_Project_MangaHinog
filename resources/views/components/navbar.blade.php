@@ -39,15 +39,15 @@
                     </li>
                 </ul>
                 <div class="flex items-center justify-end mt-3 md:mt-0">
-                    <button id="darkModeToggle" class="p-2 rounded focus:outline-none flex items-center">
+                    {{-- <button id="darkModeToggle" class="p-2 rounded focus:outline-none flex items-center">
                         <img id="darkModeIcon" src="{{ asset('dark-theme-svgrepo-com.svg') }}" alt="Dark Mode Icon" class="w-6 h-6 md:w-8 md:h-8">
-                    </button>
+                    </button> --}}
                 </div>
                 
                 <div class="flex items-center justify-end mt-3 md:mt-0">
                     <form class="flex items-center space-x-2 w-full md:w-auto">
                         <input type="search" name="search" class="form-input px-4 py-2 border rounded w-full md:w-auto" placeholder="Search a Topic" aria-label="Search">
-                        <button class="bg-black text-white px-4 py-2 rounded">Search</button>
+                        <button class="bg-black text-white hover:bg-red-800 px-4 py-2 rounded">Search</button>
                     </form>
                     @auth
                         <div class="relative inline-block text-left ml-3">
@@ -114,8 +114,8 @@
             <div class="mb-6 text-center">
                 <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
                 <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-gray-300 block">Home</a></li>
-                    <li><a href="#" class="hover:text-gray-300 block">Browse</a></li>
+                    <li><a href="/" class="hover:text-gray-300 block">Home</a></li>
+                    <li><a href="/threads" class="hover:text-gray-300 block">Browse</a></li>
                 </ul>
             </div>
             
@@ -124,11 +124,11 @@
                 <ul class="space-y-2 text-gray-400">
                     <li class="flex justify-center md:justify-start items-center space-x-2">
                         <i class="fas fa-envelope"></i>
-                        <a href="mailto:info@mangauniverse.com" class="hover:text-gray-300">info@mangauniverse.com</a>
+                        <a href="#" class="hover:text-gray-300">info@mangahinog.com</a>
                     </li>
                     <li class="flex justify-center md:justify-start items-center space-x-2">
                         <i class="fas fa-phone"></i>
-                        <a href="tel:+123456789" class="hover:text-gray-300">+1 (234) 567-89</a>
+                        <a href="#" class="hover:text-gray-300">+1 (234) 567-89</a>
                     </li>
                 </ul>
             </div>
@@ -139,7 +139,7 @@
     </footer>
 
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script>
+    {{-- <script>
         const darkModeToggle = document.getElementById('darkModeToggle');
         const darkModeIcon = document.getElementById('darkModeIcon');
         darkModeToggle.addEventListener('click', () => {
@@ -156,7 +156,7 @@
             document.documentElement.classList.add('dark');
             darkModeIcon.src = "{{ asset('light-theme-svgrepo-com.svg') }}"; 
         }
-    </script>
+    </script> --}}
 
     <x-successMessage />
 </body>

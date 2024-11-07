@@ -4,7 +4,7 @@
         <div class="flex justify-between sm:flex sm:justify-between">
             <div class="flex gap-3 items-center">
                 <div>
-                    <img class="rounded-full" src="{{ $thread->user->profile_picture ? asset('storage/' . $thread->user->profile_picture) : asset('profile_placeholder.png') }}" alt="" height="40" width="40"/>
+                    <img class="rounded-full w-12 h-12 object-cover" src="{{ $thread->user->profile_picture ? asset('storage/' . $thread->user->profile_picture) : asset('profile_placeholder.png') }}" alt="" />
                 </div>
                 <h1 class="font-bold text-lg">{{ $thread->user->name }}</h1>
             </div>
@@ -20,14 +20,18 @@
                             <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
                         </svg>
                     </button>
-                    <div id="dropdownDots" class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
-                        <ul class="text-sm text-gray-700 dark:text-gray-200">
+                    <div id="dropdownDots" class=" hidden bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                        <ul class="text-sm text-gray-700 dark:text-gray-200 flex flex-col justify-center">
                             <li>
-                                <a href="/threads/{{ $thread->id }}/edit" class="text-black">Edit</a>
+                                <button class="px-3 py-2 w-full rounded-t-lg hover:bg-gray-200">
+                                    <a href="/threads/{{ $thread->id }}/edit" >Edit</a>
+                                </button>
+                            </li>
+                            <li>
                                 <form action="/threads/{{ $thread->id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this thread?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <button type="submit" class="px-4 py-2 rounded-b-lg hover:bg-gray-200">Delete</button>
                                 </form>
                             </li>
                         </ul>
@@ -82,23 +86,23 @@
                     <div>
                         <input type="file" name="image">
                     </div>
-                    <div class="pe-5">
-                        <button type="button" class="px-2 py-2 bg-gray-600 text-white rounded-full hover:bg-gray-700" onclick="hideButtons()">Cancel</button>
-                        <button type="submit" class="px-2 py-2 bg-red-500 text-white rounded-full hover:bg-red-600">Comment</button>
+                    <div class="pe-5 gap-2">
+                        <button type="button" class="md:px-2 md:py-2 md:text-sm bg-gray-600 text-white rounded-full hover:bg-gray-700" onclick="hideButtons()">Cancel</button>
+                        <button type="submit" class="md:px-2 md:py-2 md:text-sm bg-red-500 text-white rounded-full hover:bg-red-600">Comment</button>
                     </div>
                 </div>
             </div>
         </form>
         
     </section>
-    
+    {{-- comments  --}}
     <section class="mx-4 sm:mx-8 md:mx-20">
         <div class="p-4 mb-4">
             @foreach($thread->comments->where('parent_id', null) as $comment)
                 <div class="flex gap-3 items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div>
-                            <img class="rounded-full" src="{{ $comment->user->profile_picture ? asset('storage/' . $comment->user->profile_picture) : asset('profile_placeholder.png') }}" alt="" height="35" width="35"/>
+                            <img class="rounded-full w-9 h-9 object-cover" src="{{ $comment->user->profile_picture ? asset('storage/' . $comment->user->profile_picture) : asset('profile_placeholder.png') }}" alt="" />
                         </div>
                         <h1 class="font-bold">{{ $comment->user->name }}</h1>
                     </div>
@@ -108,14 +112,14 @@
                                 <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
                             </svg>
                         </button>
-                        <div id="dropdownDotsHorizontal-{{$comment->id}}" class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-                                <li><button onclick="toggleEditForm({{ $comment->id }})" class="text-sm text-blue-500">Edit</button></li>
+                        <div id="dropdownDotsHorizontal-{{$comment->id}}" class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                            <ul class="text-sm text-gray-700 dark:text-gray-200 flex flex-col justify-center">
+                                <li><button onclick="toggleEditForm({{ $comment->id }})" class="px-3 py-2 w-full rounded-t-lg hover:bg-gray-200">Edit</button></li>
                                 <li>
                                     <form action="/comments/{{$comment->id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="px-4 py-2">Delete</button>
+                                        <button type="submit" class="px-4 py-2 rounded-b-lg hover:bg-gray-200">Delete</button>
                                     </form>
                                 </li>
                             </ul>
@@ -161,12 +165,14 @@
                 <form id="reply-form-{{ $comment->id }}" class="hidden" action="/threads/{{ $thread->id }}/comments" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="parent_id" value="{{ $comment->id }}">
-                    <div class="flex">
+                    <div class="flex flex-col">
                         <textarea name="content" placeholder="Reply to this comment..." class="w-full h-12 rounded"></textarea>
-                        <input type="file" name="image" class="ml-2">
+                        <div class="flex mt-2 w-full justify-between">
+                            <input type="file" name="image" class="ml-2">
                         <button type="submit">
                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);"><path d="m21.426 11.095-17-8A1 1 0 0 0 3.03 4.242l1.212 4.849L12 12l-7.758 2.909-1.212 4.849a.998.998 0 0 0 1.396 1.147l17-8a1 1 0 0 0 0-1.81z"></path></svg>
                         </button>
+                        </div>
                     </div>
                 </form>
 
@@ -182,9 +188,9 @@
                             <span class="ml-2 text-sm text-gray-900">Remove Image</span>
                         </label>
                     @endif
-                    <div class="gap-3">
-                        <button type="submit" class="text-sm text-green-500 mt-2">Save</button>
-                        <button type="button" onclick="toggleEditForm({{ $comment->id }})" class="text-sm text-red-500 mt-2">Cancel</button>
+                    <div class="gap-3 mt-2">
+                        <button type="submit" class="px-2 py-1 bg-black text-white rounded-full">Save</button>
+                        <button type="button" onclick="toggleEditForm({{ $comment->id }})" class="px-2 py-1 bg-red-800 text-white rounded-full ">Cancel</button>
                     </div>
                 </form>
 

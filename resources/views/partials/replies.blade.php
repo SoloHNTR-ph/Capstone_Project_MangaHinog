@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between">
             <div class="flex gap-3 items center">
                 <div>
-                    <img class="rounded-full" src="{{ $reply->user->profile_picture ? asset('storage/' . $reply->user->profile_picture) : asset('profile_placeholder.png') }}" alt="Profile Image" height="35" width="35" />
+                    <img class="rounded-full w-9 h-9 object-cover" src="{{ $reply->user->profile_picture ? asset('storage/' . $reply->user->profile_picture) : asset('profile_placeholder.png') }}" alt="Profile Image" />
                 </div>
                 <h1 class="font-bold">{{ $reply->user->name }}</h1>
             </div>
@@ -15,16 +15,16 @@
               </button>
               
               <!-- Dropdown menu -->
-              <div id="dropdownDotsHorizontal-{{$reply->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton-{{$reply->id}}">
+              <div id="dropdownDotsHorizontal-{{$reply->id}}" class=" hidden bz-10g-white divide-y divide-gray-100 rounded-lg shadow  dark:bg-gray-700 dark:divide-gray-600">
+                  <ul class="text-sm text-gray-700 dark:text-gray-200 flex flex-col justify-center" aria-labelledby="dropdownMenuIconHorizontalButton-{{$reply->id}}">
                     <li>
-                        <button onclick="toggleEditForm({{ $reply->id }})" class="text-sm text-blue-500">Edit</button>
+                        <button onclick="toggleEditForm({{ $reply->id }})" class="px-3 py-2 w-full rounded-t-lg hover:bg-gray-200">Edit</button>
                     </li>
                     <li>
                         <form action="/comments/{{$reply->id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="px-4 py-2">Delete</button>
+                            <button type="submit" class="px-4 py-2 rounded-b-lg hover:bg-gray-200">Delete</button>
                         </form>
                     </li>
                     
@@ -70,14 +70,14 @@
         <form id="reply-form-{{ $reply->id }}" class="hidden" action="{{ url('/threads/' . $thread->id . '/comments') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="parent_id" value="{{ $reply->id }}">
-            <div class="flex">
-                <textarea name="content" placeholder="Reply to this reply..." class="w-full h-12 rounded"></textarea>
-                <input type="file" name="image" class="ml-2">
-                <button type="submit" class="ml-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);">
-                        <path d="m21.426 11.095-17-8A1 1 0 0 0 3.03 4.242l1.212 4.849L12 12l-7.758 2.909-1.212 4.849a.998.998 0 0 0 1.396 1.147l17-8a1 1 0 0 0 0-1.81z"></path>
-                    </svg>
+            <div class="flex flex-col">
+                <textarea name="content" placeholder="Reply to this comment..." class="w-full h-12 rounded"></textarea>
+                <div class="flex mt-2 w-full justify-between">
+                    <input type="file" name="image" class="ml-2">
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);"><path d="m21.426 11.095-17-8A1 1 0 0 0 3.03 4.242l1.212 4.849L12 12l-7.758 2.909-1.212 4.849a.998.998 0 0 0 1.396 1.147l17-8a1 1 0 0 0 0-1.81z"></path></svg>
                 </button>
+                </div>
             </div>
         </form>
 
@@ -94,8 +94,10 @@
                 </label>
             @endif
             
-            <button type="submit" class="text-sm text-green-500 mt-2">Save</button>
-            <button type="button" onclick="toggleEditForm({{ $reply->id }})" class="text-sm text-red-500 mt-2">Cancel</button>
+            <div class="gap-3 mt-2">
+                <button type="submit" class="px-2 py-1 bg-black text-white rounded-full">Save</button>
+                <button type="button" onclick="toggleEditForm({{ $reply->id }})" class="px-2 py-1 bg-red-800 text-white rounded-full ">Cancel</button>
+            </div>
         </form>
 
 
